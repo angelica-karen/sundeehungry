@@ -12,10 +12,41 @@ Class-based views
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+
+    url(r'^restaurant/sign-in/$', auth_views.login,
+        {'template_name':'restaurant/sign_in.html'},
+        name = 'restaurant-sign-in'),
+
+    path('restaurant/sign-in/$', auth_views.login,
+        {'template_name':'restaurant/sign_in.html'},
+        name = 'restaurant-sign-in'),
+
+    url(r'^restaurant/sign-out/$', auth_views.logout,
+        {'next_page': '/'},
+        name = 'restaurant-sign-out'),
+
+    path('restaurant/sign-out/$', auth_views.logout,
+        {'next_page': '/'},
+        name = 'restaurant-sign-out'),
+
+    path('restaurant/sign-out/', LogoutView.as_view(template_name='home.html'), name='restaurant-sign-out'),
 """
 from django.contrib import admin
 from django.urls import path
+from sundeehungryapp import views
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LogoutView
+
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+    path('', views.home, name='home'),
+    path('restaurant/sign-in/', LoginView.as_view(template_name='restaurant/sign_in.html'),
+        name='restaurant-sign-in'),
+    path('restaurant/sign-out/', LogoutView.as_view(template_name='restaurant/home.html'),
+        name='restaurant-sign-out'),
+    path('restaurant/sign-up', views.restaurant_sign_up, name = 'restaurant-sign-up'),
+    path('restaurant/', views.restaurant_home, name = 'restaurant-home'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
