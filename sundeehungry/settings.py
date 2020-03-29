@@ -25,8 +25,8 @@ SECRET_KEY = '_dyjt4vx04)j2j+rwmvp8$c#7)+rae$dn(7pd+)=n!b%8@cau9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['peaceful-wildwood-36108.herokuapp.com']
 
 # Application definition
 
