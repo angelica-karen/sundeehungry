@@ -11,6 +11,9 @@ Class-based views
     2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
+
+    path('weblog/', include('blog.urls')),
+
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 
     url(r'^restaurant/sign-in/$', auth_views.login,
@@ -31,6 +34,7 @@ Including another URLconf
 
     path('restaurant/sign-out/', LogoutView.as_view(template_name='home.html'), name='restaurant-sign-out'),
 """
+from django.conf.urls import include
 from django.contrib import admin
 from django.urls import path
 from sundeehungryapp import views
@@ -41,6 +45,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
+
+    # Restaurant
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('restaurant/sign-in/', LoginView.as_view(template_name='restaurant/sign_in.html'),
@@ -49,4 +55,10 @@ urlpatterns = [
         name='restaurant-sign-out'),
     path('restaurant/sign-up', views.restaurant_sign_up, name = 'restaurant-sign-up'),
     path('restaurant/', views.restaurant_home, name = 'restaurant-home'),
+
+    #Sign In/ Sign Up/ Sign Out
+    path('api/social/', include('rest_framework_social_oauth2.urls')),
+    # /convert-toek (sign in/sign up)
+    # /revoke-token (sign out)
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
