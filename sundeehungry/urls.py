@@ -34,7 +34,7 @@ Including another URLconf
 
     path('restaurant/sign-out/', LogoutView.as_view(template_name='home.html'), name='restaurant-sign-out'),
 """
-from django.conf.urls import include
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.urls import path
 from sundeehungryapp import views
@@ -49,15 +49,24 @@ urlpatterns = [
     # Restaurant
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
-    path('restaurant/sign-in/', LoginView.as_view(template_name='restaurant/sign_in.html'),
-        name='restaurant-sign-in'),
-    path('restaurant/sign-out/', LogoutView.as_view(template_name='restaurant/home.html'),
-        name='restaurant-sign-out'),
+    #path('restaurant/sign-in/', LoginView.as_view(template_name='restaurant/sign_in.html'),
+    #    name='restaurant-sign-in'),
+    url(r'^restaurant/sign-in/$', auth_views.login,
+        {'template_name':'restaurant/sign_in.html'},
+        name = 'restaurant-sign-in'),
+
+    #path('restaurant/sign-out/', LogoutView.as_view(template_name='restaurant/home.html'),
+        #name='restaurant-sign-out'),
+    url(r'^restaurant/sign-out/$', auth_views.logout,
+        {'next_page': '/'},
+        name = 'restaurant-sign-out'),
+
     path('restaurant/sign-up', views.restaurant_sign_up, name = 'restaurant-sign-up'),
     path('restaurant/', views.restaurant_home, name = 'restaurant-home'),
 
     #Sign In/ Sign Up/ Sign Out
-    path('api/social/', include('rest_framework_social_oauth2.urls')),
+    #path('api/social/', include('rest_framework_social_oauth2.urls')),
+    url(r'^api/social/', include('rest_framework_social_oauth2.urls')),
     # /convert-toek (sign in/sign up)
     # /revoke-token (sign out)
 
