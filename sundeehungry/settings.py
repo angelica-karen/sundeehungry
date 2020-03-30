@@ -68,10 +68,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
-                #'social_django.context_processors.backends',
-                'social.apps.django_app.context_processors.backends',
-                #'social_django.context_processors.login_redirect',
-                'social.apps.django_app.context_processors.login_redirect',
+                'social_django.context_processors.backends',
+
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -140,7 +139,6 @@ import dj_database_url
 db_from_env = dj_database_url.config()
 DATABASES['default'].update(db_from_env)
 
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 AUTHENTICATION_BACKENDS = (
    'social_core.backends.facebook.FacebookOAuth2',
